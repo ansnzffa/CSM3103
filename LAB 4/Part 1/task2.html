@@ -1,0 +1,73 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>Lab 4: Task 2</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+      #boxes { margin-top: 50px; float: left; width: 100%; }
+      #toggles { float: left; width: 100%; margin-top: 10px; }
+      #info { float: left; margin-top: 5px; }
+      .box { width: 50px; height: 50px; float: left; }
+      .outlined { border: 2px solid black; }
+      .round-edge { border-radius: 15px; }
+      .teal { background-color: teal; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function() {
+
+        /*$('#button_toggle_colors').click(function() {
+          var box1 = $('#box1');
+          var currentColor = $(box1).css('background-color');
+
+          if (currentColor === 'rgb(0, 0, 0)') {
+            $(box1).css('background-color', 'rgb(57, 204, 204)');
+          } else {
+            $(box1).css('background-color', 'rgb(0, 0, 0)');
+          }*/
+
+        $('#button_toggle_colors').click(function() {
+          var boxes = $('.box');
+          var randomIndex = Math.floor(Math.random() * boxes.length);
+          boxes.hide(); // Hide all boxes
+          boxes.eq(randomIndex).show(); // Show the randomly selected box
+        });
+
+        $('#button_toggle_roundedges').click(function() {
+          $('.box').toggleClass('round-edge');
+        });
+
+        $('#button_add_box').click(function() {
+          var newBox = $('<div>').addClass('box outlined');
+          $('#boxes').append(newBox);
+          var new_box = document.createElement('div');
+          var existingBoxes = $(".box").length;
+          var nextBoxId = existingBoxes+1;
+          $(new_box).attr("id", "box" + nextBoxId);
+          $(new_box).addClass("box");
+          $(new_box).addClass("outlined");
+
+          $("#boxes").append(new_box);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="boxes">
+        <div id="box1" class="box outlined"></div>
+        <div id="box2" class="box outlined"></div>
+        <div id="box3" class="box outlined"></div>
+      </div>
+
+      <div id="toggles">
+        <h2>Toggles</h2>
+        <button class="btn" id="button_toggle_colors">Toggle Colors</button>
+        <button class="btn" id="button_toggle_roundedges">Toggle Rounded Borders</button>
+        <button class="btn" id="button_add_box">Add a New Box</button>
+      </div>
+    </div>
+  </body>
+</html>
