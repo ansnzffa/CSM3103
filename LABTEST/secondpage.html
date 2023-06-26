@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <title>Staff Details</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+
+   <!-- Custom styles for this template -->
+   <link href="css/navbar-fixed-top.css" rel="stylesheet">
+   <style>
+    .navbar-default .navbar-brand {
+         color: #777;
+      }
+</style>
+</head>
+
+<body>
+   <!-- Fixed navbar -->
+   <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+               aria-expanded="false" aria-controls="navbar">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">CSM3103</a>
+         </div>
+         <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+               <li class="active"><a href="index.html">Home</a></li>
+               <li><a href="secondpage.html">About</a></li>
+               <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                     aria-expanded="false">Dropdown <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                     <li><a href="#">Profile</a></li>
+                     <li><a href="#">Logout</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div><!--/.nav-collapse -->
+      </div>
+   </nav>
+
+   <div class="container1">
+      <h1>Staff Details</h1>
+      <div id="staff-details"></div>
+   </div>
+
+   <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               Front End Programming &nbsp;2023
+            </div>
+         </div>
+      </div>
+   </nav>
+
+   <script src="js/jquery-3.2.1.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script>
+      // Get the employeeNumber from the query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const employeeNumber = urlParams.get("id");
+
+      // Make AJAX call to retrieve staff details by employeeNumber
+      fetch(`https://kerbau.odaje.biz/getstaffbyid.php?id=${employeeNumber}`)
+         .then(response => response.json())
+         .then(data => {
+            const staffDetails = JSON.parse(data[1]);
+
+            if (staffDetails) {
+               const staffDetailsContainer = document.getElementById("staff-details");
+
+               const staffTable = document.createElement("table");
+               staffTable.classList.add("table");
+
+               const tableBody = document.createElement("tbody");
+
+               for (const [key, value] of Object.entries(staffDetails)) {
+                  const row = document.createElement("tr");
+
+                  const keyCell = document.createElement("td");
+                  keyCell.textContent = key;
+                  row.appendChild(keyCell);
+
+                  const valueCell = document.createElement("td");
+                  valueCell.textContent = value;
+                  row.appendChild(valueCell);
+
+                  tableBody.appendChild(row);
+               }
+
+               staffTable.appendChild(tableBody);
+               staffDetailsContainer.appendChild(staffTable);
+            } else {
+               console.error("No data associated with the employee number found.");
+            }
+         })
+         .catch(error => {
+            console.error("Error fetching staff details:", error);
+         });
+   </script>
+</body>
+
+</html>
